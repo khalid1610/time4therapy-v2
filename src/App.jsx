@@ -16,7 +16,7 @@ import {
   Building2,
   Menu,
 } from "lucide-react";
-
+import { supabase } from "./supabase";
 export default function Time4TherapyFullSite() {
   const [route, setRoute] = useState("home");
   const [therapy, setTherapy] = useState("");
@@ -34,7 +34,22 @@ export default function Time4TherapyFullSite() {
   const [leadSubmitted, setLeadSubmitted] = useState(false);
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [bookingName, setBookingName] = useState("");
+  const [bookingEmail, setBookingEmail] = useState("");
+  const [bookingPhone, setBookingPhone] = useState("");
+  const [bookingLoading, setBookingLoading] = useState(false);
 
+  const [practiceName, setPracticeName] = useState("");
+  const [practiceContactName, setPracticeContactName] = useState("");
+  const [practiceEmail, setPracticeEmail] = useState("");
+  const [practiceCity, setPracticeCity] = useState("");
+  const [practiceMessage, setPracticeMessage] = useState("");
+  const [practiceLoading, setPracticeLoading] = useState(false);
+
+  const [contactName, setContactName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  const [contactLoading, setContactLoading] = useState(false);
   const therapies = [
     {
       title: "Chiropractie",
@@ -303,10 +318,80 @@ export default function Time4TherapyFullSite() {
     setBookingConfirmed(false);
   };
 
-  const handleConfirmBooking = () => {
-    setBookingConfirmed(true);
-  };
+    const handleConfirmBooking = async () => {
+    if (!supabase) {
+      alert("Supabase is nog niet gekoppeld.");
+      return;
+    }
 
+    if (!bookingName.trim() || !bookingEmail.trim()) {
+      alert("Vul minimaal naam en e-mailadres in.");
+      return;
+    }
+
+    setBookingLoading(true);
+
+    const { error } = await supabase.from("bookings").insert({
+      practice_name: bookingPractice?.name ?? null,
+      practice_city: bookingPractice?.city ?? null,
+      therapy_type: bookingPractice?.therapy ?? null,
+      treatment_name: bookingTreatment || null,
+      booking_day_label: bookingDay || null,
+      booking_time_label: bookingTime || null,
+      customer_name: bookingName,
+      customer_email: bookingEmail,
+      customer_phone: bookingPhone || null,
+      status: "new",
+    });
+
+    setBookingLoading(false);
+
+    if (error) {
+      alert("Opslaan van boeking mislukt.");
+      return;
+    }
+
+    setBookingConfirmed(true);
+    setBookingName("");
+    setBookingEmail("");
+    setBookingPhone("");
+  };
+const handlePracticeSignup = async () => {
+  if (!supabase) {
+    alert("Supabase is nog niet gekoppeld.");
+    return;
+  }
+
+  if (!practiceName.trim() || !practiceContactName.trim() || !practiceEmail.trim()) {
+    alert("Vul minimaal praktijknaam, contactpersoon en e-mailadres in.");
+    return;
+  }
+
+  setPracticeLoading(true);
+
+  const { error } = await supabase.from("practice_signups").insert({
+    practice_name: practiceName,
+    contact_name: practiceContactName,
+    email: practiceEmail,
+    city: practiceCity || null,
+    message: practiceMessage || null,
+    status: "new",
+  });
+
+  setPracticeLoading(false);
+
+  if (error) {
+    alert("Aanmelding opslaan mislukt.");
+    return;
+  }
+
+  setLeadSubmitted(true);
+  setPracticeName("");
+  setPracticeContactName("");
+  setPracticeEmail("");
+  setPracticeCity("");
+  setPracticeMessage("");
+};
   const goHome = () => {
     setRoute("home");
     setMobileMenuOpen(false);
@@ -866,14 +951,39 @@ export default function Time4TherapyFullSite() {
             <>
               <h2 className="text-2xl font-semibold">Meld je praktijk aan</h2>
               <div className="mt-6 space-y-4">
-                <input className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none" placeholder="Naam praktijk" />
-                <input className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none" placeholder="Naam contactpersoon" />
-                <input className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none" placeholder="E-mailadres" />
-                <input className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none" placeholder="Stad" />
-                <textarea className="min-h-[120px] w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none" placeholder="Vertel kort iets over jullie praktijk" />
-              </div>
-              <button onClick={() => setLeadSubmitted(true)} className="mt-6 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white">Aanmelden</button>
-            </>
+<input
+  value={practiceName}
+  onChange={(e) => setPracticeName(e.target.value)}
+  className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+  placeholder="Naam praktijk"
+<input
+  value={practiceContactName}
+  onChange={(e) => setPracticeContactName(e.target.value)}
+  className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+  placeholder="Naam contactpersoon"
+<input
+  value={practiceEmail}
+  onChange={(e) => setPracticeEmail(e.target.value)}
+  className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+  placeholder="E-mailadres"
+<input
+  value={practiceCity}
+  onChange={(e) => setPracticeCity(e.target.value)}
+  className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+  placeholder="Stad"
+<textarea
+  value={practiceMessage}
+  onChange={(e) => setPracticeMessage(e.target.value)}
+  className="min-h-[120px] w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+  placeholder="Vertel kort iets over jullie praktijk"
+/>              </div>
+<button
+  onClick={handlePracticeSignup}
+  disabled={practiceLoading}
+  className="mt-6 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70"
+>
+  {practiceLoading ? "Bezig met opslaan..." : "Aanmelden"}
+</button>            </>
           ) : (
             <div className="rounded-[22px] bg-[#EEF8F1] p-6">
               <h3 className="text-2xl font-semibold">Aanmelding verzonden</h3>
@@ -1012,15 +1122,39 @@ export default function Time4TherapyFullSite() {
                     </div>
                   </div>
                 </div>
-
+                <div className="mt-6 grid gap-3">
+                  <input
+                    value={bookingName}
+                    onChange={(e) => setBookingName(e.target.value)}
+                    className="w-full rounded-[16px] border border-[#e7ddd1] bg-white px-4 py-4 text-[15px] outline-none"
+                    placeholder="Jouw naam"
+                  />
+                  <input
+                    value={bookingEmail}
+                    onChange={(e) => setBookingEmail(e.target.value)}
+                    className="w-full rounded-[16px] border border-[#e7ddd1] bg-white px-4 py-4 text-[15px] outline-none"
+                    placeholder="Jouw e-mailadres"
+                  />
+                  <input
+                    value={bookingPhone}
+                    onChange={(e) => setBookingPhone(e.target.value)}
+                    className="w-full rounded-[16px] border border-[#e7ddd1] bg-white px-4 py-4 text-[15px] outline-none"
+                    placeholder="Jouw telefoonnummer"
+                  />
+                </div>
                 <div className="mt-6 rounded-[18px] bg-[#f8f4ee] p-4 text-[15px] text-[#4b5563]">
                   <div className="font-semibold text-[#1f2937]">Samenvatting</div>
                   <div className="mt-2">{bookingTreatment}</div>
                   <div>{bookingDay} • {bookingTime}</div>
                 </div>
 
-                <button onClick={handleConfirmBooking} className="mt-6 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white transition hover:bg-[#E96A0A]">
-                  Bevestig afspraak
+<button
+  onClick={handleConfirmBooking}
+  disabled={bookingLoading}
+  className="mt-6 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white transition hover:bg-[#E96A0A] disabled:cursor-not-allowed disabled:opacity-70"
+>
+  {bookingLoading ? "Bezig met opslaan..." : "Bevestig afspraak"}
+</button>                  Bevestig afspraak
                 </button>
               </>
             ) : (
