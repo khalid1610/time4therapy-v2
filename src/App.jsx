@@ -950,40 +950,45 @@ const handlePracticeSignup = async () => {
           {!leadSubmitted ? (
             <>
               <h2 className="text-2xl font-semibold">Meld je praktijk aan</h2>
-              <div className="mt-6 space-y-4">
-<input
-  value={practiceName}
-  onChange={(e) => setPracticeName(e.target.value)}
-  className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-  placeholder="Naam praktijk"
-<input
-  value={practiceContactName}
-  onChange={(e) => setPracticeContactName(e.target.value)}
-  className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-  placeholder="Naam contactpersoon"
-<input
-  value={practiceEmail}
-  onChange={(e) => setPracticeEmail(e.target.value)}
-  className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-  placeholder="E-mailadres"
-<input
-  value={practiceCity}
-  onChange={(e) => setPracticeCity(e.target.value)}
-  className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-  placeholder="Stad"
-<textarea
-  value={practiceMessage}
-  onChange={(e) => setPracticeMessage(e.target.value)}
-  className="min-h-[120px] w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-  placeholder="Vertel kort iets over jullie praktijk"
-/>              </div>
+<div className="mt-6 space-y-4">
+  <input
+    value={practiceName}
+    onChange={(e) => setPracticeName(e.target.value)}
+    className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+    placeholder="Naam praktijk"
+  />
+  <input
+    value={practiceContactName}
+    onChange={(e) => setPracticeContactName(e.target.value)}
+    className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+    placeholder="Naam contactpersoon"
+  />
+  <input
+    value={practiceEmail}
+    onChange={(e) => setPracticeEmail(e.target.value)}
+    className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+    placeholder="E-mailadres"
+  />
+  <input
+    value={practiceCity}
+    onChange={(e) => setPracticeCity(e.target.value)}
+    className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+    placeholder="Stad"
+  />
+  <textarea
+    value={practiceMessage}
+    onChange={(e) => setPracticeMessage(e.target.value)}
+    className="min-h-[120px] w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+    placeholder="Vertel kort iets over jullie praktijk"
+  />
+</div>
 <button
   onClick={handlePracticeSignup}
   disabled={practiceLoading}
   className="mt-6 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70"
 >
   {practiceLoading ? "Bezig met opslaan..." : "Aanmelden"}
-</button>            </>
+</button>
           ) : (
             <div className="rounded-[22px] bg-[#EEF8F1] p-6">
               <h3 className="text-2xl font-semibold">Aanmelding verzonden</h3>
