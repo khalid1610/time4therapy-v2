@@ -931,7 +931,7 @@ const handlePracticeSignup = async () => {
     );
   };
 
-const ForPracticesPage = () => (
+const renderForPracticesPage = () => (
   <section className="mx-auto max-w-7xl px-4 py-12 md:px-6">
     <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start">
       <div>
@@ -1098,7 +1098,7 @@ const ForPracticesPage = () => (
       {route === "cities" && <CitiesPage />}
       {route === "results" && <ResultsPage />}
       {route === "practice" && <PracticePage />}
-      {route === "for-practices" && <ForPracticesPage />}
+{route === "for-practices" && renderForPracticesPage()}     
       {route === "about" && <AboutPage />}
       {route === "faq" && <FaqPage />}
       {route === "contact" && <ContactPage />}
