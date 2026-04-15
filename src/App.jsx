@@ -1187,8 +1187,8 @@ const ForPracticesPage = () => (
   className="mt-6 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white transition hover:bg-[#E96A0A] disabled:cursor-not-allowed disabled:opacity-70"
 >
   {bookingLoading ? "Bezig met opslaan..." : "Bevestig afspraak"}
-</button>                  Bevestig afspraak
-                </button>
+</button>                 
+             
               </>
             ) : (
               <div className="mt-6 rounded-[22px] bg-[#EEF8F1] p-6 text-[#1f2937]">
