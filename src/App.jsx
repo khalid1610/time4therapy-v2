@@ -931,75 +931,103 @@ const handlePracticeSignup = async () => {
     );
   };
 
-  const ForPracticesPage = () => (
-    <section className="mx-auto max-w-7xl px-4 py-12 md:px-6">
-      <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start">
-        <div>
-          <span className="rounded-full bg-[#EEF3FF] px-4 py-2 text-sm font-medium text-[#1B4292]">Voor praktijken</span>
-          <h1 className="mt-5 text-4xl font-semibold md:text-5xl">Groei mee met Time4Therapy</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-[#6b7280]">Maak jouw praktijk zichtbaar, ontvang online aanvragen en geef cliënten een duidelijke plek om behandelingen te vinden en te boeken.</p>
-          <div className="mt-8 space-y-4 text-[17px] text-[#4b5563]">
-            <div className="flex items-start gap-3"><CheckCircle2 className="mt-1 h-5 w-5 text-[#FB7710]" /><span>Professioneel praktijkprofiel met behandelingen en informatie</span></div>
-            <div className="flex items-start gap-3"><CheckCircle2 className="mt-1 h-5 w-5 text-[#FB7710]" /><span>Online boekingen en aanvragen op één plek</span></div>
-            <div className="flex items-start gap-3"><CheckCircle2 className="mt-1 h-5 w-5 text-[#FB7710]" /><span>Zichtbaarheid in populaire steden en therapiecategorieën</span></div>
-            <div className="flex items-start gap-3"><CheckCircle2 className="mt-1 h-5 w-5 text-[#FB7710]" /><span>Een rustige, duidelijke presentatie richting nieuwe cliënten</span></div>
+const ForPracticesPage = () => (
+  <section className="mx-auto max-w-7xl px-4 py-12 md:px-6">
+    <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start">
+      <div>
+        <span className="rounded-full bg-[#EEF3FF] px-4 py-2 text-sm font-medium text-[#1B4292]">
+          Voor praktijken
+        </span>
+        <h1 className="mt-5 text-4xl font-semibold md:text-5xl">
+          Groei mee met Time4Therapy
+        </h1>
+        <p className="mt-5 max-w-2xl text-lg leading-8 text-[#6b7280]">
+          Maak jouw praktijk zichtbaar, ontvang online aanvragen en geef cliënten
+          een duidelijke plek om behandelingen te vinden en te boeken.
+        </p>
+        <div className="mt-8 space-y-4 text-[17px] text-[#4b5563]">
+          <div className="flex items-start gap-3">
+            <CheckCircle2 className="mt-1 h-5 w-5 text-[#FB7710]" />
+            <span>Professioneel praktijkprofiel met behandelingen en informatie</span>
+          </div>
+          <div className="flex items-start gap-3">
+            <CheckCircle2 className="mt-1 h-5 w-5 text-[#FB7710]" />
+            <span>Online boekingen en aanvragen op één plek</span>
+          </div>
+          <div className="flex items-start gap-3">
+            <CheckCircle2 className="mt-1 h-5 w-5 text-[#FB7710]" />
+            <span>Zichtbaarheid in populaire steden en therapiecategorieën</span>
+          </div>
+          <div className="flex items-start gap-3">
+            <CheckCircle2 className="mt-1 h-5 w-5 text-[#FB7710]" />
+            <span>Een rustige, duidelijke presentatie richting nieuwe cliënten</span>
           </div>
         </div>
-
-        <div className="rounded-[28px] bg-[#fffdfa] p-8 ring-1 ring-[#e7ddd1]">
-          {!leadSubmitted ? (
-            <>
-              <h2 className="text-2xl font-semibold">Meld je praktijk aan</h2>
-<div className="mt-6 space-y-4">
-  <input
-    value={practiceName}
-    onChange={(e) => setPracticeName(e.target.value)}
-    className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-    placeholder="Naam praktijk"
-  />
-  <input
-    value={practiceContactName}
-    onChange={(e) => setPracticeContactName(e.target.value)}
-    className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-    placeholder="Naam contactpersoon"
-  />
-  <input
-    value={practiceEmail}
-    onChange={(e) => setPracticeEmail(e.target.value)}
-    className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-    placeholder="E-mailadres"
-  />
-  <input
-    value={practiceCity}
-    onChange={(e) => setPracticeCity(e.target.value)}
-    className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-    placeholder="Stad"
-  />
-  <textarea
-    value={practiceMessage}
-    onChange={(e) => setPracticeMessage(e.target.value)}
-    className="min-h-[120px] w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
-    placeholder="Vertel kort iets over jullie praktijk"
-  />
-</div>
-<button
-  onClick={handlePracticeSignup}
-  disabled={practiceLoading}
-  className="mt-6 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70"
->
-  {practiceLoading ? "Bezig met opslaan..." : "Aanmelden"}
-</button>
-          ) : (
-            <div className="rounded-[22px] bg-[#EEF8F1] p-6">
-              <h3 className="text-2xl font-semibold">Aanmelding verzonden</h3>
-              <p className="mt-3 text-[#4b5563]">Je demo-aanmelding is verstuurd. In een echte versie nemen we hier contact op en begeleiden we de onboarding van de praktijk.</p>
-              <button onClick={() => setLeadSubmitted(false)} className="mt-5 rounded-full bg-[#1B4292] px-6 py-3 text-sm font-semibold text-white">Nieuwe aanmelding</button>
-            </div>
-          )}
-        </div>
       </div>
-    </section>
-  );
+
+      <div className="rounded-[28px] bg-[#fffdfa] p-8 ring-1 ring-[#e7ddd1]">
+        {!leadSubmitted ? (
+          <>
+            <h2 className="text-2xl font-semibold">Meld je praktijk aan</h2>
+            <div className="mt-6 space-y-4">
+              <input
+                value={practiceName}
+                onChange={(e) => setPracticeName(e.target.value)}
+                className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+                placeholder="Naam praktijk"
+              />
+              <input
+                value={practiceContactName}
+                onChange={(e) => setPracticeContactName(e.target.value)}
+                className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+                placeholder="Naam contactpersoon"
+              />
+              <input
+                value={practiceEmail}
+                onChange={(e) => setPracticeEmail(e.target.value)}
+                className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+                placeholder="E-mailadres"
+              />
+              <input
+                value={practiceCity}
+                onChange={(e) => setPracticeCity(e.target.value)}
+                className="w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+                placeholder="Stad"
+              />
+              <textarea
+                value={practiceMessage}
+                onChange={(e) => setPracticeMessage(e.target.value)}
+                className="min-h-[120px] w-full rounded-2xl border border-[#e7ddd1] bg-white px-4 py-4 outline-none"
+                placeholder="Vertel kort iets over jullie praktijk"
+              />
+            </div>
+            <button
+              onClick={handlePracticeSignup}
+              disabled={practiceLoading}
+              className="mt-6 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {practiceLoading ? "Bezig met opslaan..." : "Aanmelden"}
+            </button>
+          </>
+        ) : (
+          <div className="rounded-[22px] bg-[#EEF8F1] p-6">
+            <h3 className="text-2xl font-semibold">Aanmelding verzonden</h3>
+            <p className="mt-3 text-[#4b5563]">
+              Je aanmelding is verstuurd. We nemen contact op zodra we jullie
+              praktijk hebben ontvangen.
+            </p>
+            <button
+              onClick={() => setLeadSubmitted(false)}
+              className="mt-5 rounded-full bg-[#1B4292] px-6 py-3 text-sm font-semibold text-white"
+            >
+              Nieuwe aanmelding
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+);
 
   const AboutPage = () => (
     <section className="mx-auto max-w-5xl px-4 py-12 md:px-6">
