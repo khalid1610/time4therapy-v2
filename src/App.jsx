@@ -1,5 +1,4 @@
-import React, { useMemo, useState } from "react";
-import {
+import React, { useEffect, useMemo, useState } from "react";import {
   Search,
   MapPin,
   ArrowRight,
@@ -50,6 +49,17 @@ export default function Time4TherapyFullSite() {
   const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
   const [contactLoading, setContactLoading] = useState(false);
+  useEffect(() => {
+  if (bookingPractice) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [bookingPractice]);
   const therapies = [
     {
       title: "Chiropractie",
@@ -1105,101 +1115,163 @@ const renderForPracticesPage = () => (
 
       <Footer />
 
-      {bookingPractice && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 p-0 md:items-center md:p-4">
-          <div className="w-full max-w-2xl rounded-t-[28px] bg-[#fffdfa] p-5 shadow-2xl md:rounded-[28px] md:p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <div className="text-sm font-medium text-[#FB7710]">Afspraak boeken</div>
-                <h3 className="mt-2 text-[28px] font-semibold">{bookingPractice.name}</h3>
-                <p className="mt-2 text-[#6b7280]">{bookingPractice.city} • {bookingPractice.therapy}</p>
-              </div>
-              <button onClick={() => setBookingPractice(null)} className="rounded-full border border-[#e7ddd1] p-2 text-[#6b7280]">
-                <X className="h-4 w-4" />
-              </button>
-            </div>
+    {bookingPractice && (
+  <div className="fixed inset-0 z-50 bg-black/45">
+    <div className="flex h-full items-center justify-center p-3 md:p-4">
+      <div className="flex w-full max-w-[680px] flex-col overflow-hidden rounded-[24px] bg-[#fffdfa] shadow-2xl md:max-h-[85vh]">
+        <div className="flex items-start justify-between gap-4 border-b border-[#efe7dc] px-5 py-4 md:px-6">
+          <div>
+            <div className="text-sm font-medium text-[#FB7710]">Afspraak boeken</div>
+            <h3 className="mt-1 text-[24px] font-semibold md:text-[28px]">
+              {bookingPractice.name}
+            </h3>
+            <p className="mt-1 text-sm text-[#6b7280]">
+              {bookingPractice.city} • {bookingPractice.therapy}
+            </p>
+          </div>
+          <button
+            onClick={() => setBookingPractice(null)}
+            className="shrink-0 rounded-full border border-[#e7ddd1] p-2 text-[#6b7280]"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
 
-            {!bookingConfirmed ? (
-              <>
-                <div className="mt-6">
-                  <div className="text-sm font-semibold uppercase tracking-wide text-[#6b7280]">1. Behandeling</div>
-                  <div className="mt-3 grid gap-3">
-                    {bookingPractice.treatments.map((item) => (
-                      <button key={item} onClick={() => setBookingTreatment(item)} className={`rounded-[18px] border px-4 py-4 text-left text-[15px] font-medium ${bookingTreatment === item ? "bg-[#FFF4E8] text-[#1f2937]" : "text-[#4b5563]"}`} style={{ borderColor: bookingTreatment === item ? "#FB7710" : "#e7ddd1" }}>
+        <div className="overflow-y-auto px-5 py-4 md:px-6 md:py-5">
+          {!bookingConfirmed ? (
+            <>
+              <div>
+                <div className="text-sm font-semibold uppercase tracking-wide text-[#6b7280]">
+                  1. Behandeling
+                </div>
+                <div className="mt-3 grid gap-3">
+                  {bookingPractice.treatments.map((item) => (
+                    <button
+                      key={item}
+                      onClick={() => setBookingTreatment(item)}
+                      className={`rounded-[16px] border px-4 py-3 text-left text-[15px] font-medium ${
+                        bookingTreatment === item
+                          ? "bg-[#FFF4E8] text-[#1f2937]"
+                          : "text-[#4b5563]"
+                      }`}
+                      style={{
+                        borderColor: bookingTreatment === item ? "#FB7710" : "#e7ddd1",
+                      }}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-5 md:grid-cols-2">
+                <div>
+                  <div className="text-sm font-semibold uppercase tracking-wide text-[#6b7280]">
+                    2. Dag
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    {["Vandaag", "Morgen", "Vrijdag", "Zaterdag"].map((item) => (
+                      <button
+                        key={item}
+                        onClick={() => setBookingDay(item)}
+                        className={`rounded-[14px] border px-4 py-3 text-[15px] font-medium ${
+                          bookingDay === item
+                            ? "bg-[#EEF3FF] text-[#1B4292]"
+                            : "text-[#4b5563]"
+                        }`}
+                        style={{
+                          borderColor: bookingDay === item ? "#1B4292" : "#e7ddd1",
+                        }}
+                      >
                         {item}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-6 grid gap-6 md:grid-cols-2">
-                  <div>
-                    <div className="text-sm font-semibold uppercase tracking-wide text-[#6b7280]">2. Dag</div>
-                    <div className="mt-3 grid grid-cols-2 gap-3">
-                      {["Vandaag", "Morgen", "Vrijdag", "Zaterdag"].map((item) => (
-                        <button key={item} onClick={() => setBookingDay(item)} className={`rounded-[16px] border px-4 py-3 text-[15px] font-medium ${bookingDay === item ? "bg-[#EEF3FF] text-[#1B4292]" : "text-[#4b5563]"}`} style={{ borderColor: bookingDay === item ? "#1B4292" : "#e7ddd1" }}>
-                          {item}
-                        </button>
-                      ))}
-                    </div>
+                <div>
+                  <div className="text-sm font-semibold uppercase tracking-wide text-[#6b7280]">
+                    3. Tijd
                   </div>
-
-                  <div>
-                    <div className="text-sm font-semibold uppercase tracking-wide text-[#6b7280]">3. Tijd</div>
-                    <div className="mt-3 grid grid-cols-2 gap-3">
-                      {["09:00", "10:30", "14:00", "16:30"].map((item) => (
-                        <button key={item} onClick={() => setBookingTime(item)} className={`rounded-[16px] border px-4 py-3 text-[15px] font-medium ${bookingTime === item ? "bg-[#EEF3FF] text-[#1B4292]" : "text-[#4b5563]"}`} style={{ borderColor: bookingTime === item ? "#1B4292" : "#e7ddd1" }}>
-                          {item}
-                        </button>
-                      ))}
-                    </div>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    {["09:00", "10:30", "14:00", "16:30"].map((item) => (
+                      <button
+                        key={item}
+                        onClick={() => setBookingTime(item)}
+                        className={`rounded-[14px] border px-4 py-3 text-[15px] font-medium ${
+                          bookingTime === item
+                            ? "bg-[#EEF3FF] text-[#1B4292]"
+                            : "text-[#4b5563]"
+                        }`}
+                        style={{
+                          borderColor: bookingTime === item ? "#1B4292" : "#e7ddd1",
+                        }}
+                      >
+                        {item}
+                      </button>
+                    ))}
                   </div>
                 </div>
-                <div className="mt-6 grid gap-3">
-                  <input
-                    value={bookingName}
-                    onChange={(e) => setBookingName(e.target.value)}
-                    className="w-full rounded-[16px] border border-[#e7ddd1] bg-white px-4 py-4 text-[15px] outline-none"
-                    placeholder="Jouw naam"
-                  />
-                  <input
-                    value={bookingEmail}
-                    onChange={(e) => setBookingEmail(e.target.value)}
-                    className="w-full rounded-[16px] border border-[#e7ddd1] bg-white px-4 py-4 text-[15px] outline-none"
-                    placeholder="Jouw e-mailadres"
-                  />
-                  <input
-                    value={bookingPhone}
-                    onChange={(e) => setBookingPhone(e.target.value)}
-                    className="w-full rounded-[16px] border border-[#e7ddd1] bg-white px-4 py-4 text-[15px] outline-none"
-                    placeholder="Jouw telefoonnummer"
-                  />
-                </div>
-                <div className="mt-6 rounded-[18px] bg-[#f8f4ee] p-4 text-[15px] text-[#4b5563]">
-                  <div className="font-semibold text-[#1f2937]">Samenvatting</div>
-                  <div className="mt-2">{bookingTreatment}</div>
-                  <div>{bookingDay} • {bookingTime}</div>
-                </div>
-
-<button
-  onClick={handleConfirmBooking}
-  disabled={bookingLoading}
-  className="mt-6 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white transition hover:bg-[#E96A0A] disabled:cursor-not-allowed disabled:opacity-70"
->
-  {bookingLoading ? "Bezig met opslaan..." : "Bevestig afspraak"}
-</button>                 
-             
-              </>
-            ) : (
-              <div className="mt-6 rounded-[22px] bg-[#EEF8F1] p-6 text-[#1f2937]">
-                <h4 className="text-[22px] font-semibold">Afspraak ingepland</h4>
-                <p className="mt-3 text-[#4b5563]">Je demo-afspraak staat klaar bij <strong>{bookingPractice.name}</strong> voor <strong>{bookingTreatment}</strong> op <strong>{bookingDay}</strong> om <strong>{bookingTime}</strong>.</p>
-                <button onClick={() => setBookingPractice(null)} className="mt-5 rounded-full bg-[#1B4292] px-6 py-3 text-sm font-semibold text-white">Sluiten</button>
               </div>
-            )}
-          </div>
+
+              <div className="mt-5 grid gap-3">
+                <input
+                  value={bookingName}
+                  onChange={(e) => setBookingName(e.target.value)}
+                  className="w-full rounded-[14px] border border-[#e7ddd1] bg-white px-4 py-3 text-[15px] outline-none"
+                  placeholder="Jouw naam"
+                />
+                <input
+                  value={bookingEmail}
+                  onChange={(e) => setBookingEmail(e.target.value)}
+                  className="w-full rounded-[14px] border border-[#e7ddd1] bg-white px-4 py-3 text-[15px] outline-none"
+                  placeholder="Jouw e-mailadres"
+                />
+                <input
+                  value={bookingPhone}
+                  onChange={(e) => setBookingPhone(e.target.value)}
+                  className="w-full rounded-[14px] border border-[#e7ddd1] bg-white px-4 py-3 text-[15px] outline-none"
+                  placeholder="Jouw telefoonnummer"
+                />
+              </div>
+
+              <div className="mt-5 rounded-[16px] bg-[#f8f4ee] p-4 text-[15px] text-[#4b5563]">
+                <div className="font-semibold text-[#1f2937]">Samenvatting</div>
+                <div className="mt-2">{bookingTreatment}</div>
+                <div>
+                  {bookingDay} • {bookingTime}
+                </div>
+              </div>
+
+              <button
+                onClick={handleConfirmBooking}
+                disabled={bookingLoading}
+                className="mt-5 w-full rounded-full bg-[#FB7710] px-6 py-4 text-base font-semibold text-white transition hover:bg-[#E96A0A] disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {bookingLoading ? "Bezig met opslaan..." : "Bevestig afspraak"}
+              </button>
+            </>
+          ) : (
+            <div className="rounded-[20px] bg-[#EEF8F1] p-6 text-[#1f2937]">
+              <h4 className="text-[22px] font-semibold">Afspraak ingepland</h4>
+              <p className="mt-3 text-[#4b5563]">
+                Je demo-afspraak staat klaar bij <strong>{bookingPractice.name}</strong> voor{" "}
+                <strong>{bookingTreatment}</strong> op <strong>{bookingDay}</strong> om{" "}
+                <strong>{bookingTime}</strong>.
+              </p>
+              <button
+                onClick={() => setBookingPractice(null)}
+                className="mt-5 rounded-full bg-[#1B4292] px-6 py-3 text-sm font-semibold text-white"
+              >
+                Sluiten
+              </button>
+            </div>
+          )}
         </div>
-      )}
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
